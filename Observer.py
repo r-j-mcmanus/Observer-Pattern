@@ -5,13 +5,18 @@ class Observer:
             return 
         subject.attach(self)
 
-    def update(self, state):
-        print "observer update", state
+    def update(self, event):
+        print "observer update called, should be overwriten in implimentation"
+
+class Event:
+    name = None
+    value = None
+    #ect
 
 class Subject(object):
     def __init__(self):
         self.observers = set()
-        self.__state = None
+        self.__event = None
 
     def attach(self, observer):
         if observer not in self.observers:
@@ -21,19 +26,19 @@ class Subject(object):
         if observer in self.observers:
             self.observers.remove(observer)
 
-    def notify(self):
+    def notify(self, event):
         for observer in self.observers:
-            observer.update(self.__state)
+            observer.update(self.__event)
 
-    def getState(self): 
-        return self.__state
-    def setState(self, state): 
-        self.__state = state
+    def getEvent(self): 
+        return self.__event
+    def setEvent(self, event): 
+        self.__event = event
         self.notify()
-    def delState(self): 
-        del self.__state
+    def delEvent(self): 
+        del self.__event
 
-    state = property(getState, setState, delState, "I'm the 'state' property.")
+    state = property(getEvent, setEvent, delEvent, "I'm the 'event' property.")
 
 
 
