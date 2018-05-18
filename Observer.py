@@ -1,19 +1,19 @@
-
 class Observer:
-    def __init__(self, subject = None):
-        if subject == None:
+    def __init__(self, publisher = None):
+        if publisher == None:
             return 
-        subject.attach(self)
+        publisher.attach(self)
 
     def update(self, event):
         print "observer update called, should be overwriten in implimentation"
+        print "event:", event.name, event.value
 
 class Event:
-    name = None
-    value = None
+    name = "hello"
+    value = "world"
     #ect
 
-class Subject(object):
+class Publisher(object):
     def __init__(self):
         self.observers = set()
         self.__event = None
@@ -34,7 +34,7 @@ class Subject(object):
         return self.__event
     def setEvent(self, event): 
         self.__event = event
-        self.notify()
+        self.notify(event)
     def delEvent(self): 
         del self.__event
 
@@ -42,9 +42,11 @@ class Subject(object):
 
 
 
-subject = Subject()
-subject.state = "State 1"
-observer = Observer(subject)
-subject.state = "State 2"
-subject.detach(observer)
-print "observers", subject.observers
+publisher = Publisher()
+print "adding publisher"
+observer = Observer(publisher)
+print "publisher observers:", publisher.observers
+publisher.state = Event()
+print "removing publisher"
+publisher.detach(observer)
+print "publisher observers:", publisher.observers
